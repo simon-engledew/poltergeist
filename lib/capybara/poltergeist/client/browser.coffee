@@ -173,6 +173,18 @@ class Poltergeist.Browser
     @page.execute("function() { #{script} }")
     this.sendResponse(true)
 
+  wait: (script) ->
+    if @page.evaluate("function() { return #{script} }")
+      this.sendResponse(true)
+    else
+      setTimeout((=> this.wait(script)), 50)
+
+  callback: (script) ->
+    @page.native.onCallback = (script) =>
+      @page.native.onCallback = null
+      this.sendResponse(data)
+    @page.execute("function() { #{script} }")
+
   push_frame: (name, timeout = new Date().getTime() + 2000) ->
     if @page.pushFrame(name)
       if @page.currentUrl() == 'about:blank'

@@ -115,6 +115,14 @@ module Capybara::Poltergeist
       command 'evaluate', script
     end
 
+    def wait(script)
+      command 'wait', script
+    end
+
+    def callback(script)
+      command 'callback', script
+    end
+
     def execute(script)
       command 'execute', script
     end
